@@ -133,30 +133,8 @@ int main(){
     Queue <fixa> Jogador4;
 
     string str;
-    //distribuir as fichas Não Pretas
-    cout << "Digite as Fichas coloridas (44 fichas): ";
-    for(int i = 0; i < 44; i++){
-        cin >> str;
-        a.cor = str[1];
-        a.jogador = str[0];
-        a.torre = str[2];
-        cout << "Cor: " << a.cor << "\nJogador: " << a.jogador << "\nTorre: " << a.torre << endl;
-        if(a.jogador == '1'){
-            Jogador1.push(a);
-        }else{
-            if(a.jogador == '2'){
-                Jogador2.push(a);
-            }else{
-                if(a.jogador == '3'){
-                    Jogador3.push(a);
-                }else{
-                    Jogador4.push(a);
-                }
-            }
-        }
-        
-    }
-    cout << "Digite as fichas pretas (8 fichas): ";
+
+    cout << "fichas pretas (8 fichas): ";
     //distribuir as fichas pretas
     for(int i = 0; i < 8; i++){
         cin >> str;
@@ -178,50 +156,197 @@ int main(){
         }
     }
 
-    //A fila de jogadores, na sequencia que irão jogar
-    Queue <Queue<fixa>> FilaDeJogadores;
-    FilaDeJogadores.push(Jogador1);
-    FilaDeJogadores.push(Jogador2);
-    FilaDeJogadores.push(Jogador3);
-    FilaDeJogadores.push(Jogador4);
-
-    //Jogadas enquanto todas as torres não estiverem cheias (igual a 6)
-    while(Torre[1].size() <= 6 || Torre[2].size() <= 6 || Torre[3].size() <= 6 || Torre[4].size() <= 6 || Torre[5].size() <= 6 || Torre[6].size() <= 6){
-        
-        int torre_Ficha = FilaDeJogadores.front().front().torre - '0';
-        if(FilaDeJogadores.front().front().cor == 'P'){
-            if(!Torre[torre_Ficha].empty()){
-                Torre[torre_Ficha].pop();
+    //distribuir as fichas Não Pretas
+    cout << "Demais Fichas (44 fichas): ";
+    for(int i = 0; i < 44; i++){
+        cin >> str;
+        a.cor = str[1];
+        a.jogador = str[0];
+        a.torre = str[2];
+        //cout << "Cor: " << a.cor << "\nJogador: " << a.jogador << "\nTorre: " << a.torre << endl;
+        if(a.jogador == '1'){
+            Jogador1.push(a);
+        }else{
+            if(a.jogador == '2'){
+                Jogador2.push(a);
+            }else{
+                if(a.jogador == '3'){
+                    Jogador3.push(a);
+                }else{
+                    Jogador4.push(a);
+                }
             }
-            Torre[torre_Ficha].push(FilaDeJogadores.front().front());
-            FilaDeJogadores.front().pop();
-        }
-        if(Torre[torre_Ficha].size() == 6){
-            while((Torre[1].size() <= 6 || Torre[2].size() <= 6 || Torre[3].size() <= 6 || Torre[4].size() <= 6 || Torre[5].size() <= 6 || Torre[6].size() <= 6) && Torre[torre_Ficha].size() == 6){
-                torre_Ficha++;
-                if(torre_Ficha%6 == 0){
-                    torre_Ficha = (torre_Ficha + 1)%6;
+        } 
+    }
+    cout << "Todas as fixas foram distribuidas" << endl;
+    
+    //Jogadas até preencher as torres
+    for(int i = 0; i < 36; i++){
+        int torre_Ficha;
+        printf("Jogada: ");
+        fixa aux; //para comparar com outras fixas
+        cin >> str; //Ler a ficha que será jogada
+        aux.cor = str[1];
+        aux.jogador = str[0];
+        aux.torre = str[2];
+
+        //qual jogador vai jogar
+        if(i%4 == 0){
+
+            //Procurar a ficha com o while do cachorro
+            while(Jogador1.front().cor != aux.cor && Jogador1.front().torre != aux.torre){
+                Jogador1.push(Jogador1.front());
+                Jogador1.pop();
+            }
+
+            //cheguei aqui, então achei a ficha
+            torre_Ficha = Jogador1.front().torre - '0';
+
+            //se o elemento na fila é uma ficha preta
+            if(Jogador1.front().cor == 'P'){
+                if(!Torre[torre_Ficha].empty()){
+                    Torre[torre_Ficha].pop();
+                }
+                Torre[torre_Ficha].push(Jogador1.front());
+                Jogador1.pop();
+            }
+
+            //Torre cheia, passa para a proxima
+            if(Torre[torre_Ficha].size() == 6){
+                if((torre_Ficha+1) == 6){
+                    torre_Ficha = (torre_Ficha+1)%6;
                 }else{
                     torre_Ficha = torre_Ficha%6;
                 }
+                torre_Ficha++;
             }
-           
+
+            //põe a fixa pra torre
+            Torre[torre_Ficha].push(Jogador1.front());
+            Jogador1.pop();
+        }else{
+            if(i%4 == 1){
+
+                //Procurar a ficha com o while do cachorro
+                while(Jogador2.front().jogador != aux.jogador && Jogador2.front().torre != aux.torre){
+                    Jogador2.push(Jogador2.front());
+                    Jogador2.pop();
+                }
+
+                //cheguei aqui, então achei a ficha
+                torre_Ficha = Jogador2.front().torre - '0';
+
+                //se o elemento na fila é uma ficha preta
+                if(Jogador2.front().cor == 'P'){
+                    if(!Torre[torre_Ficha].empty()){
+                    Torre[torre_Ficha].pop();
+                    }
+                    Torre[torre_Ficha].push(Jogador2.front());
+                    Jogador2.pop();
+                }
+
+                //Torre cheia, passa para a proxima
+                if(Torre[torre_Ficha].size() == 6){
+                    if((torre_Ficha+1) == 6){
+                        torre_Ficha = (torre_Ficha+1)%6;
+                    }else{
+                        torre_Ficha = torre_Ficha%6;
+                    }
+                    torre_Ficha++;
+                }
+
+                //põe a fixa pra torre
+                Torre[torre_Ficha].push(Jogador1.front());
+                Jogador1.pop();
+            }else{
+                if(i%4 == 2){
+
+                    //Procurar a ficha com o while do cachorro
+                    while(Jogador3.front().jogador != aux.jogador && Jogador3.front().torre != aux.torre){
+                        Jogador3.push(Jogador3.front());
+                        Jogador3.pop();
+                    }
+
+                    //cheguei aqui, então achei a ficha
+                    torre_Ficha = Jogador3.front().torre - '0';
+
+                    //se o elemento na fila é uma ficha preta
+                    if(Jogador3.front().cor == 'P'){
+                        if(!Torre[torre_Ficha].empty()){
+                            Torre[torre_Ficha].pop();
+                        }
+                        Torre[torre_Ficha].push(Jogador3.front());
+                        Jogador3.pop();
+                    }
+
+                    //Torre cheia, passa para a proxima
+                    if(Torre[torre_Ficha].size() == 6){
+                        if((torre_Ficha+1) == 6){
+                            torre_Ficha = (torre_Ficha+1)%6;
+                        }else{
+                            torre_Ficha = torre_Ficha%6;
+                        }
+                        torre_Ficha++;
+                    }
+
+                    //põe a fixa pra torre
+                    Torre[torre_Ficha].push(Jogador3.front());
+                    Jogador3.pop();
+
+                }else{
+                    //Procurar a ficha com o while do cachorro
+                    while(Jogador4.front().jogador != aux.jogador && Jogador4.front().torre != aux.torre){
+                        Jogador4.push(Jogador4.front());
+                        Jogador4.pop();
+                    }
+
+                    //cheguei aqui, então achei a ficha
+                    torre_Ficha = Jogador4.front().torre - '0';
+
+                    //se o elemento na fila é uma ficha preta
+                    if(Jogador4.front().cor == 'P'){
+                        if(!Torre[torre_Ficha].empty()){
+                            Torre[torre_Ficha].pop();
+                        }
+                        Torre[torre_Ficha].push(Jogador4.front());
+                        Jogador4.pop();
+                    }
+
+                    //Torre cheia, passa para a proxima
+                    if(Torre[torre_Ficha].size() == 6){
+                        if((torre_Ficha+1) == 6){
+                            torre_Ficha = (torre_Ficha+1)%6;
+                        }else{
+                            torre_Ficha = torre_Ficha%6;
+                        }
+                        torre_Ficha++;
+                    }
+
+                    //põe a fixa pra torre
+                    Torre[torre_Ficha].push(Jogador4.front());
+                    Jogador4.pop();
+                }
+            }
         }
-        Torre[torre_Ficha].push(FilaDeJogadores.front().front());
-        FilaDeJogadores.front().pop();
-        FilaDeJogadores.push(FilaDeJogadores.front());
-        FilaDeJogadores.pop();
+
+        //Incrementa quando não a ficha não é Preta
+        /*if(aux.cor != 'P'){
+            i++;
+        }*/
     }
 
-    //Desempilhando e Pontuando cada Jogador
+    
 
+    int azul, roxo, vermelho, branco, j;
+    azul = roxo = vermelho = branco = 0;
+
+    //Desempilhando e Pontuando cada Jogador
     for(int i = 1; i <= 6; i++){
-        int azul, roxo, vermelho, branco;
-        azul = roxo = vermelho = branco = 0;
+        
         fixa aux;
-        int j = 1;
+        j = 1;
         while(j--){
-            aux = Torre[i].top();
+            aux.cor = Torre[i].top().cor;
             Torre[i].pop();
         }
         if(aux.cor == 'A'){
@@ -241,6 +366,9 @@ int main(){
         cout << "Pontos do Roxo: " << roxo << endl;
         cout << "Pontos do Vermelho: " << vermelho << endl;
         cout << "Pontos do Branco: " << branco << endl;
+        j++;
+    }
+
         if(azul > roxo && azul > vermelho && azul > branco){
             cout << "Azul Ganhou!!!" << endl;
         }else{
@@ -258,5 +386,4 @@ int main(){
                 }
             }
         }
-    }
 }
