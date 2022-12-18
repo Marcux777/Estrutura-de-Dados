@@ -21,13 +21,13 @@ template <typename Trem> Trem Node<Trem>::DesmontaNode(Node<Trem> * P){
 //Classe Stack
 template <typename Trem> class Stack{
     public:
-    Node<Trem> * Top;
-    int N;
-    Stack();
-    ~Stack();
-    bool push(Trem X);
-    Trem top();
-    Trem pop();
-    int size();
-    bool empty();
+        Node<Trem> * Top;
+        int N;
+        Stack();
+        ~Stack();
+        bool push(Trem X);
+        Trem top();
+        Trem pop();
+        int size();
+        bool empty();
 };
