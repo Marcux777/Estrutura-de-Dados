@@ -20,11 +20,19 @@ template <typename Trem> Trem Node<Trem>::DesmontaNode(Node<Trem> * P){
 }
 
 template <typename Trem> class AVLTree{
+    Node<Trem>* R;
+    AVLTree();
+    ~AVLTree();
     static void RSD(Node<Trem>*(&R));
     static void RSE(Node<Trem>*(&R));
     static void RDD(Node<Trem>*(&R));
     static void RDE(Node<Trem>*(&R));
-    void Insert(Node<Trem> X){
-        
-    }
+    void DeleteTree(Node<Trem>* R);
+    void Insert(Node<Trem> X);
+    void Remove(Node<Trem> X);
+    void Search(Node<Trem>&X);
+    void InOrder(Node<Trem>* X);
+    void PosOrder(Node<Trem>* X);
+    void PreOrder(Node<Trem>* X);
+
 };
