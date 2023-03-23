@@ -14,7 +14,7 @@ int main()
     A.Root->right = Node<int>::MontaNode(10);
     A.Root->right->right = Node<int>::MontaNode(14);
     A.Root->right->right->left = Node<int>::MontaNode(13);
-    cout << "BFS: ";
+    /*cout << "BFS: ";
     A.Breadthfirstsearch();
 
     cout << "\n\nIn Order: ";
@@ -37,12 +37,12 @@ int main()
          << endl;
 
     cout << "Arvore Por nivel: \n";
-    A.ImprimeLVLOrder(A.Root);
+    A.ImprimeLVLOrder(A.Root);*/
 
     cout << "\nMaior soma do caminho entre as folhas: " << A.MaxSumPath(A.Root) << endl
          << endl;
 
-    cout << "E espelhada? ";
+    /*cout << "E espelhada? ";
     if (A.Espelhada(A.Root))
     {
         cout << "True\n";
@@ -50,5 +50,5 @@ int main()
     else
     {
         cout << "False\n";
-    }
+    }*/
 }

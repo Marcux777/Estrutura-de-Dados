@@ -187,11 +187,11 @@ public:
         return true;
     }
 
-    int MaxSumPath(Node<Trem> *P)
+    long long int MaxSumPath(Node<Trem> *P)
     {
-        int X = -2147483647;
+        long long int X = INT64_MIN;
 
-        int val = MaxSumP(P, X);
+        long long int val = MaxSumP(P, X);
 
         if (P->left && P->right)
         {
@@ -270,7 +270,7 @@ private:
         }
     }
 
-    int MaxSumP(Node<Trem> *P, int &X)
+    long long int MaxSumP(Node<Trem> *P, long long int &X)
     {
         if (!P)
         {
@@ -294,7 +294,7 @@ private:
         return (!P->left) ? LadoDir + P->D : LadoEsq + P->D;
     }
 
-    int maior(int a, int b)
+    long long int maior(long long int a, long long int b)
     {
         return (a >= b) ? a : b;
     }
