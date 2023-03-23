@@ -1,4 +1,6 @@
 #include "Class_Node.h"
+#include <stack>
+#include <queue>
 
 // Criando os metodos Node
 template <typename Trem>
@@ -39,6 +41,7 @@ public:
         Root = NULL;
         N = 0;
     }
+ 
     ~BTree()
     {
         ClearBTree();
@@ -124,11 +127,13 @@ public:
                 q->right = newNode;
             }
         }
+        N++;
     }
 
     bool insertRecursivo(Trem x)
     {
         Root = insertRec(Root, x);
+        N++;
         return true;
     }
 
@@ -178,6 +183,7 @@ public:
     bool InsertLVLOrder(Trem x)
     {
         Root = InsertLVL(Root, x);
+        N++;
         return true;
     }
 
@@ -212,6 +218,10 @@ public:
             return false; // Arvore Vazia
         }
         return IsEspelhada(P, P);
+    }
+
+    int size(){
+        return N;
     }
 
 private:
