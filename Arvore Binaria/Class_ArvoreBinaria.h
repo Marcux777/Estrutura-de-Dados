@@ -41,7 +41,7 @@ public:
         Root = NULL;
         N = 0;
     }
- 
+
     ~BTree()
     {
         ClearBTree();
@@ -220,11 +220,241 @@ public:
         return IsEspelhada(P, P);
     }
 
-    int size(){
+    int size()
+    {
         return N;
     }
 
+    void Delete(Trem x)
+    {
+        removeNode(Root, x);
+        N--;
+    }
+
+    void BurnTree(Trem destino)
+    {
+        Node<Trem> *P = Root;
+        queue<Node<Trem> *> fila;
+
+        // Chamada de função
+        burnTree(P, destino, fila);
+
+        // O loop while é executado até que a fila esteja vazia
+        while (!fila.empty())
+        {
+            int tamanhoFila = fila.size();
+            while (tamanhoFila--)
+            {
+                Node<Trem> *temp = fila.front();
+
+                // Imprimir os nós queimados
+                cout << temp->D;
+
+                // Remove o nó da árvore
+                // removeNode(Root, temp->D);
+
+                // Inserir o filho esquerdo na fila, se existir
+                if (temp->left)
+                {
+                    fila.push(temp->left);
+                }
+                // Inserir o filho direito na fila, se existir
+                if (temp->right)
+                {
+                    fila.push(temp->right);
+                }
+
+                if (fila.size() != 1)
+                {
+                    cout << " ";
+                }
+
+                fila.pop();
+            }
+        }
+        cout << endl;
+    }
+
 private:
+    int burnTree(Node<Trem> *P, Trem destino, queue<Node<Trem> *> &q)
+    {
+        // Base, pra retornar caso chegue em algum nó nulo
+        if (!P)
+        {
+            return 0;
+        }
+
+        // Verifica se o nó alvo foi encontrado
+        if (P->D == destino)
+        {
+            cout << P->D << " ";
+
+            // Busca e Remove o nó queimado da minha árvore OBS: NÃO CONSEGUI REMOVER
+            // removeNode(Root, P->D);
+
+            if (P->left)
+            {
+                q.push(P->left);
+            }
+            if (P->right)
+            {
+                q.push(P->right);
+            }
+
+            // Retorna 1 para evitar overflow
+            return 1;
+        }
+        // Primeiro lado esquerdo
+        int a = burnTree(P->left, destino, q);
+
+        if (a == 1)
+        {
+            int qsize = q.size();
+
+            // Executa o loop enquanto a fila não estiver vazia
+            while (qsize--)
+            {
+                Node<Trem> *temp = q.front();
+
+                // Imprime os nós queimados
+                cout << temp->D << " ";
+
+                // Busca e Remove o nó queimado da minha árvore OBS: NÃO CONSEGUI REMOVER
+                // removeNode(Root, temp->D);
+
+                q.pop();
+
+                // Verifica a condição para a subarvore esquerda
+                if (temp->left)
+                {
+                    q.push(temp->left);
+                }
+
+                // Verifica a condição para a subarvore direita
+                if (temp->right)
+                {
+                    q.push(temp->right);
+                }
+            }
+
+            if (P->right)
+            {
+                q.push(P->right);
+            }
+
+            cout << P->D << " ";
+
+            // Busca e Remove o nó queimado da minha árvore OBS: NÃO CONSEGUI REMOVER
+            // removeNode(Root, P->D);
+
+            // Retorna 1 para evitar overflow
+            return 1;
+        }
+
+        // Agora o lado direito
+        int b = burnTree(P->right, destino, q);
+
+        if (b == 1)
+        {
+            int qsize = q.size();
+            // Executa o loop enquanto a fila não estiver vazia
+
+            while (qsize--)
+            {
+                Node<Trem> *temp = q.front();
+
+                // Imprime os nós queimados
+                cout << temp->D << " ";
+
+                // Busca e Remove o nó queimado da minha árvore OBS: NÃO CONSEGUI REMOVER
+                // removeNode(Root, temp->D);
+
+                q.pop();
+
+                // Verifica a condição para a subárvore esquerda
+                if (temp->left)
+                {
+                    q.push(temp->left);
+                }
+
+                // Verifica a condição para a subárvore direita
+                if (temp->right)
+                {
+                    q.push(temp->right);
+                }
+            }
+
+            if (P->left)
+            {
+                q.push(P->left);
+            }
+
+            cout << P->D << " ";
+
+            // Busca e Remove o nó queimado da minha árvore OBS: NÃO CONSEGUI REMOVER
+            // removeNode(Root, P->D);
+
+            // Retorna 1 para evitar chamadas adicionais da função
+            return 1;
+        }
+    }
+    Node<Trem> *findMinNode(Node<Trem> *P)
+    {
+        Node<Trem> *q = P;
+        while (q && q->left != NULL)
+        {
+            q = q->left;
+        }
+        return q;
+    }
+
+    Node<Trem> *removeNode(Node<Trem> *P, Trem key)
+    {
+        if (P == NULL)
+        {
+            return P;
+        }
+        else
+        {
+            if (key < P->D)
+            {
+                P->left = removeNode(P->left, key);
+            }
+            else
+            {
+                if (key > P->D)
+                {
+                    P->right = removeNode(P->right, key);
+                }
+                else
+                {
+                    if (P->left == NULL)
+                    {
+                        Node<Trem> *temp = P->right;
+                        Node<Trem>::DesmontaNode(P);
+                        return temp;
+                    }
+                    else
+                    {
+                        if (P->right == NULL)
+                        {
+                            Node<Trem> *temp = P->left;
+                            Node<Trem>::DesmontaNode(P);
+                            return temp;
+                        }
+                        else
+                        {
+                            Node<Trem> *temp = findMinNode(P->right);
+                            P->D = temp->D;
+                            P->right = removeNode(P->right, temp->D);
+                        }
+                    }
+                }
+            }
+        }
+        return P;
+    }
+
     int Profundidade(Node<Trem> *P)
     {
         if (!P)
