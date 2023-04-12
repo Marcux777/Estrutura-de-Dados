@@ -71,12 +71,12 @@ private:
             char c = str[i];
             if (isdigit(c) || isalpha(c))
             {
-                // Se for um dígito ou uma letra, cria um nó folha com o valor do dígito
+                // Se for um dígito ou uma letra, cria um nó folha com o valor
                 s.push(Node<Trem>::MontaNode(c));
             }
             else
             {
-                // Se for um operador, cria um nó interno com o operador e os operandos
+                // Se for um operador, cria um nó com o operador e os operandos
                 Node<Trem> *node = Node<Trem>::MontaNode(c);
                 node->left = s.top();
                 s.pop();

@@ -6,7 +6,7 @@ using namespace std;
 int main()
 {
     //Todos os casos de teste
-    vector<string> s = {"+ab", "+a*bc", "*+abc", "++a*bcd", "*+ab+cd", "+++abcd"};
+    vector<string> s = {"+ab", "+a*bc", "*+abc", "++a*bcd", "*+ab+cd", "+++abcd", "+34"};
 
     for (int i = 0; i < int(s.size()); i++)
     {

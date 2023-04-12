@@ -398,6 +398,7 @@ private:
             return 1;
         }
     }
+ 
     Node<Trem> *findMinNode(Node<Trem> *P)
     {
         Node<Trem> *q = P;
