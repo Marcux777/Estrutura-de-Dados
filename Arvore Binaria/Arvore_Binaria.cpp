@@ -18,7 +18,10 @@ int main()
 
      B.ImprimeLVLOrder(B.Root);
 
-     B.BurnTree(7);
+     B.Delete(7);
+     cout << endl << endl;
+
+     B.ImprimeLVLOrder(B.Root);
 
      
 
