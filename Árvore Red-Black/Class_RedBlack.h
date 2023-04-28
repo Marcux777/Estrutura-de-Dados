@@ -4,8 +4,8 @@ using namespace std;
 
 enum Color
 {
-    Red,
-    Black
+    Black,
+    Red
 };
 
 template <typename Trem>
@@ -446,7 +446,7 @@ class RedBlackTree
         }
         if (Altura == 1)
         {
-            cout << P->D << " ";
+            cout << P->D << " " << P->color << " ";
         }
         else
         {
