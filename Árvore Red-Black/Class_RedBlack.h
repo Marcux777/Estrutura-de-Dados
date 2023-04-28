@@ -1,101 +1,7 @@
 #include <iostream>
+#include "Class_Node.h"
 #include <queue>
 using namespace std;
-
-enum Color
-{
-    Black,
-    Red
-};
-
-template <typename Trem>
-class Node
-{
-public:
-    Trem D;
-    Node *left;
-    Node *right;
-    Node *parent;
-    Color color;
-
-    static Node *MontaNode(Trem dat)
-    {
-        Node<Trem> *P = new Node<Trem>;
-        if (P)
-        {
-            P->D = dat;
-            P->left = NULL;
-            P->right = NULL;
-            P->parent = NULL;
-            P->color = Red;
-        }
-        return P;
-    }
-
-    static Trem DesmontaNode(Node *P)
-    {
-        Trem X;
-        if (P)
-        {
-            X = P->D;
-            delete P;
-        }
-        return X;
-    }
-
-    Node *uncle()
-    {
-        // If no parent or grandparent, then no uncle
-        if (parent == NULL || parent->parent == NULL)
-            return NULL;
-
-        if (parent->isOnLeft())
-            // uncle on right
-            return parent->parent->right;
-        else
-            // uncle on left
-            return parent->parent->left;
-    }
-
-    bool isOnLeft()
-    {
-        return this == parent->left;
-    }
-
-    Node *sibling()
-    {
-        if (parent == NULL)
-            return NULL;
-
-        if (isOnLeft())
-            return parent->right;
-
-        return parent->left;
-    }
-
-    void moveDown(Node *nParent)
-    {
-        if (parent != NULL)
-        {
-            if (isOnLeft())
-            {
-                parent->left = nParent;
-            }
-            else
-            {
-                parent->right = nParent;
-            }
-        }
-        nParent->parent = parent;
-        parent = nParent;
-    }
-
-    bool hasRedChild()
-    {
-        return (left != NULL && left->color == Red) ||
-               (right != NULL && right->color == Red);
-    }
-};
 
 template <typename Trem>
 class RedBlackTree
@@ -154,6 +60,28 @@ class RedBlackTree
 
     void fixRedRed(Node<Trem> *x)
     {
+        /*começa verificando se o nó em questão é a raiz da árvore.
+        Caso positivo, ele colore a raiz de preto e retorna.
+        Caso contrário, o método utiliza as propriedades da árvore red-black
+        para realizar as operações de balanceamento necessárias para manter
+        a árvore balanceada e preservar as suas propriedades.*/
+
+        /*Se o nó pai não é preto,
+        isso indica que ocorreu uma violação da propriedade da árvore red-black,
+        e o método verifica se o tio (irmão do pai) é vermelho.
+        Se o tio é vermelho, o método realiza uma recoloração para balancear a árvore e,
+        em seguida, realiza uma recursão para verificar
+        se a operação de balanceamento afetou outros nós da árvore.*/
+
+        /*se o tio é preto ou inexistente,
+        o método realiza as operações de rotação necessárias para equilibrar a árvore,
+        dependendo da posição do nó em relação ao pai e ao avô.
+        Se o nó estiver na posição esquerda-esquerda ou direita-direita,
+        o método realiza uma rotação à direita ou à esquerda, respectivamente.
+        Se o nó estiver na posição esquerda-direita ou direita-esquerda,
+        o método realiza duas rotações: uma à esquerda ou à direita,
+        seguida de uma à direita ou à esquerda, respectivamente.*/
+
         // se x é a raiz, colore-a de preto e retorna
         if (x == Root)
         {
@@ -164,9 +92,9 @@ class RedBlackTree
         Node<Trem> *parent = x->parent, *grandparent = parent->parent,
                    *uncle = x->uncle();
 
-        if (parent->color != Black)
+        if (parent->color != Black) // se o pai não é preto
         {
-            if (uncle != NULL && uncle->color == Red)
+            if (uncle != NULL && uncle->color == Red) // se tem tio e ele é red
             {
                 // tio vermelho, realiza recoloração e recursão
                 parent->color = Black;
@@ -260,7 +188,8 @@ class RedBlackTree
                 }
                 else
                 {
-                    if (v->sibling() != NULL){
+                    if (v->sibling() != NULL)
+                    {
                         v->sibling()->color = Red;
                     }
                 }
@@ -316,6 +245,32 @@ class RedBlackTree
 
     void fixDoubleBlack(Node<Trem> *x)
     {
+        /*a função verifica o irmão de x usando o método sibling().
+        Se o irmão de x for nulo, significa que o irmão é um nó nulo,
+        então a função chama fixDoubleBlack com o pai de x.
+        Caso contrário, há três possibilidades:
+
+        1 - O irmão de x é vermelho: nesse caso, a função troca as cores do pai e do irmão de x,
+        e em seguida realiza uma rotação simples na direção oposta ao lado do irmão de x.
+        Então, a função chama fixDoubleBlack com x novamente.
+
+        2 - O irmão de x é preto e tem pelo menos um filho vermelho:
+        nesse caso, a função verifica se o filho vermelho do irmão de x está no mesmo lado do irmão de x
+        em relação ao pai de x. Se estiver,
+        a função realiza uma rotação simples na direção oposta ao lado do irmão de x
+        e troca as cores do pai, irmão de x e filho vermelho.
+        Caso contrário, a função realiza uma rotação dupla:
+        primeiro uma rotação simples no mesmo lado do irmão de x,
+        seguida por uma rotação simples no lado oposto do irmão de x.
+        Novamente, a função troca as cores do pai, irmão de x e filho vermelho.
+        Em ambos os casos, a função define a cor do pai como preta.
+
+        3 - O irmão de x é preto e não tem filho vermelho: nesse caso, 
+        a função simplesmente define a cor do irmão de x como vermelha 
+        e chama fixDoubleBlack com o pai de x. 
+        Se o pai de x for preto, a função define a cor do pai como vermelha, 
+        caso contrário, define a cor do pai como preta.*/
+
         if (x == Root)
             return;
 
@@ -455,8 +410,10 @@ class RedBlackTree
         }
     }
 
-    void ClearRedBlackTree(Node<Trem>* P){
-        if(!P){
+    void ClearRedBlackTree(Node<Trem> *P)
+    {
+        if (!P)
+        {
             return;
         }
 
@@ -471,11 +428,13 @@ public:
         Root = NULL;
     }
 
-    ~RedBlackTree(){
+    ~RedBlackTree()
+    {
         ClearRedBlackTree(Root);
     }
 
-    void Clear(){
+    void Clear()
+    {
         ClearRedBlackTree(Root);
     }
 
