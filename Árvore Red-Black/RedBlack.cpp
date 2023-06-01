@@ -6,14 +6,13 @@ using namespace std;
 int main()
 {
     RedBlackTree<int> tree;
-    
-    tree.Insert(10);
-    tree.Insert(5);
-    tree.Insert(15);
-    tree.Insert(20);
-    tree.Insert(17);
-    tree.Insert(3);
-
+    int a;
+    while (cin >> a && a)
+    {
+        tree.Insert(a);
+        cout << "\nLevel Order:\n";
+        tree.ImprimeLVLOrder(tree.getRoot());
+    }
 
     cout << "InOrder:\n";
     tree.InOrder();
@@ -24,9 +23,10 @@ int main()
     cout << "\nLevel Order:\n";
     tree.ImprimeLVLOrder(tree.getRoot());
 
-    tree.DeleteValor(10);
-    tree.DeleteValor(3);
-    tree.DeleteValor(15);
+    while (cin >> a && a)
+    {
+        tree.DeleteValor(a);
+    }
 
     cout << "InOrder:\n";
     tree.InOrder();

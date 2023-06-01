@@ -246,7 +246,7 @@ class RedBlackTree
     void fixDoubleBlack(Node<Trem> *x)
     {
         /*a função verifica o irmão de x usando o método sibling().
-        Se o irmão de x for nulo, significa que o irmão é um nó nulo,
+        Nó irmão == NULL, não existe,
         então a função chama fixDoubleBlack com o pai de x.
         Caso contrário, há três possibilidades:
 
@@ -265,10 +265,10 @@ class RedBlackTree
         Novamente, a função troca as cores do pai, irmão de x e filho vermelho.
         Em ambos os casos, a função define a cor do pai como preta.
 
-        3 - O irmão de x é preto e não tem filho vermelho: nesse caso, 
-        a função simplesmente define a cor do irmão de x como vermelha 
-        e chama fixDoubleBlack com o pai de x. 
-        Se o pai de x for preto, a função define a cor do pai como vermelha, 
+        3 - O irmão de x é preto e não tem filho vermelho: nesse caso,
+        a função simplesmente define a cor do irmão de x como vermelha
+        e chama fixDoubleBlack com o pai de x.
+        Se o pai de x for preto, a função define a cor do pai como vermelha,
         caso contrário, define a cor do pai como preta.*/
 
         if (x == Root)
@@ -336,9 +336,13 @@ class RedBlackTree
                 {
                     sibling->color = Red;
                     if (parent->color == Black)
+                    {
                         fixDoubleBlack(parent);
+                    }
                     else
+                    {
                         parent->color = Black;
+                    }
                 }
             }
         }

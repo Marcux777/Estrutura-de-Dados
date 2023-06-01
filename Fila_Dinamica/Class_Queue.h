@@ -34,11 +34,13 @@ public:
     Node<Trem> *head;
     Node<Trem> *tail;
     int N;
+    
     Queue()
     {
         head = tail = NULL;
         N = 0;
     }
+    
     ~Queue()
     {
         Node<Trem> *P = head;
@@ -49,6 +51,7 @@ public:
             P = head;
         }
     }
+    
     bool push(Trem x)
     {
         Node<Trem> *P = Node<Trem>::MontaNode(x);
@@ -68,6 +71,7 @@ public:
         N++;
         return true;
     }
+    
     Trem front()
     {
         Trem x;
@@ -77,6 +81,7 @@ public:
         }
         return x;
     }
+    
     Trem pop()
     {
         Trem x;
@@ -97,14 +102,17 @@ public:
         }
         return x;
     }
+    
     int size()
     {
         return N;
     }
+    
     bool empty()
     {
         return !head;
     }
+    
     void clear()
     {
         Node<Trem> *P = head;
