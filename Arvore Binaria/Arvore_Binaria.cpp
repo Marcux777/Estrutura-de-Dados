@@ -5,7 +5,7 @@ using namespace std;
 int main()
 {
      
-     AVLTree<int> B;
+     ArvBinaria<int> B;
      B.Root = Node<int>::MontaNode(10);
      B.Root->left = Node<int>::MontaNode(7);
      B.Root->left->left = Node<int>::MontaNode(4);

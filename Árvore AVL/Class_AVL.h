@@ -30,7 +30,7 @@ Trem Node<Trem>::DesmontaNode(Node<Trem> *P)
 
 // Criando a classe da Arvore AVL
 template <typename Trem>
-class AVLTree
+class ArvBinaria
 {
 private:
     int GetHeight(Node<Trem> *node)
@@ -317,7 +317,7 @@ private:
 public:
     Node<Trem> *Root;
     int N;
-    AVLTree()
+    ArvBinaria()
     {
         Root = NULL;
         N = 0;
