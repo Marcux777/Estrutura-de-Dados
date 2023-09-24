@@ -29,20 +29,20 @@ Trem Node<Trem>::DesmontaNode(Node<Trem> *P)
 
 // Criando a classe da Arvore /Binaria
 template <typename Trem>
-class AVLTree
+class ArvBinaria
 {
 public:
     Node<Trem> *Root; // Nó raiz
     int N;            // Para Contar quantos nós temos
 
     // Metodos:
-    AVLTree()
+    ArvBinaria()
     {
         Root = NULL;
         N = 0;
     }
 
-    ~AVLTree()
+    ~ArvBinaria()
     {
         ClearBTree();
     }

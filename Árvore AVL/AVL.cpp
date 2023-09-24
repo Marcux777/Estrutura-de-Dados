@@ -3,7 +3,7 @@
 
 int main()
 {
-    AVLTree<int> avlTree;
+    ArvBinaria<int> avlTree;
 
     avlTree.Insert(50);
     avlTree.Insert(30);
